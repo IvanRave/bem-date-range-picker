@@ -7,7 +7,7 @@ block('date-range-picker')(
         content: [
           {
             elem: 'date-label',
-            content: 'Departure'
+            content: this.ctx.labelStart
           },
           {
             block: 'date-picker',
@@ -15,7 +15,7 @@ block('date-range-picker')(
               block: this.ctx.block,
               elem: 'date-start-picker'
             },
-            placeholder: 'from'
+            placeholder: this.ctx.labelStart
           }
         ]
       },
@@ -24,7 +24,7 @@ block('date-range-picker')(
         content: [
           {
             elem: 'date-label',
-            content: 'Arrival'
+            content: this.ctx.labelEnd
           },
           {
             block: 'date-picker',
@@ -32,14 +32,7 @@ block('date-range-picker')(
               block: this.ctx.block,
               elem: 'date-end-picker'
             },
-            placeholder: 'back'
-          },
-          {
-            elem: 'is-annual',
-            content: {
-              block: 'checkbox',
-              text: '1 year'
-            }
+            placeholder: this.ctx.labelEnd
           }
         ]
       },

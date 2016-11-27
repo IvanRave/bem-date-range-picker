@@ -9,10 +9,6 @@ modules.define('date-picker', [
 ], function(provide,
             BEMDOM,
             JustDate) {
-  var toPickerDate = function(justDate) {
-    return [justDate.year, justDate.month, justDate.date];
-  };
-
   var View = BEMDOM.decl(this.name, {
     onSetMod: {
       js: {
@@ -46,16 +42,22 @@ modules.define('date-picker', [
      */
     onSet: function(thingSet) {
       if (thingSet.clear === null) {
-        this.emit('change');
+        this.emit('change', null);
         return;
       }
 
-      if (typeof thingSet.select !== 'undefined') {
-        this.emit('change');
+      // "select" value depends of a set method
+      // - for timestamp - timestamp
+      // - for string - string
+      // In all cases - used timestamp
+      var timestamp = thingSet.select;
+      if (timestamp !== undefined && timestamp !== null) {
+        this.emit('change', JustDate.fromTimestamp(timestamp));
         return;
       }
     },
     /**
+     * http://amsul.ca/pickadate.js/api/#method-get-select
      * @public
      * @returns {JustDate} Current date (or null)
      */
@@ -73,7 +75,7 @@ modules.define('date-picker', [
      */
     setJustDate: function(dateSet) {
       if (dateSet) {
-        this.picker.set('select', toPickerDate(dateSet));
+        this.picker.set('select', dateSet.getTime());
       } else {
         this.picker.clear();
       }
@@ -83,6 +85,7 @@ modules.define('date-picker', [
     /**
      * Set dates limits;
      * null - removes limits
+     * Setting max has cascading changes on the select, highlight, and view only when the particular item object goes out of range.
      * {@link http://amsul.ca/pickadate.js/api/#method-set-min}
      * @public
      * @param {JustDate} dateMin Min
@@ -91,8 +94,8 @@ modules.define('date-picker', [
      */
     setMinMaxJustDates: function(dateMin, dateMax) {
       this.picker.set({
-        min: dateMin ? toPickerDate(dateMin) : false,
-        max: dateMax ? toPickerDate(dateMax) : false
+        min: dateMin ? dateMin.getArray() : false,
+        max: dateMax ? dateMax.getArray() : false
       });
 
       return this;

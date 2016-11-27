@@ -24,7 +24,9 @@ modules.define('spec', [
 
     beforeEach(function() {
       var blockHtml = BEMHTML.apply({
-        block: BLOCK_NAME
+        block: BLOCK_NAME,
+        labelStart: 'Departure',
+        labelEnd: 'Arrival'
       });
 
       var blockDom = $(blockHtml);
@@ -54,17 +56,15 @@ modules.define('spec', [
       var endAfter = block.bemDateEnd.getJustDate();
       expect(end.getTime()).to.equal(endAfter.getTime());
 
-      var isGapBetween = dateRange.getIsGapBetween();
-      var isGapBetweenAfter = block.bemIsAnnual.hasMod('checked');
-      expect(isGapBetween).to.equal(isGapBetweenAfter);
+      var startNew = new JustDate(2012, 0, 10);
 
       block.on('change', function(ev, dateRangeNew) {
-        expect(dateRangeNew.getIsGapBetween()).to.null;
-        expect(dateRangeNew.end).to.null;
+        expect(dateRangeNew.getIsGapBetween()).to.false;
+        expect(dateRangeNew.start.getTime()).to.equal(startNew.getTime());
         done();
       });
 
-      block.bemIsAnnual.delMod('checked');
+      block.bemDateStart.setJustDate(startNew);
     });
   });
 
