@@ -1,0 +1,24 @@
+.error-wrapper {
+    background: #f00;
+    color: #fff;
+    padding: 4px;
+    text-align: center;
+    display: none;
+
+    &_visible {
+        display: block;
+    }
+
+    &__icon {
+        display: inline-block;
+
+        &:after {
+            content: '\26A0'
+        }
+    }
+
+    &__message {
+        margin-left: 8px;
+        display: inline-block;
+    }
+}
