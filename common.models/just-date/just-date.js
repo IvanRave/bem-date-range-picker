@@ -15,6 +15,15 @@ modules.define('just-date', function(provide) {
   };
 
   /**
+   * @param {Object} dto Data transfer object
+   * @returns {JustDate} A new instance of JustDate
+   */
+  JustDate.fromDTO = function(dto) {
+    if (!dto) { return null; }
+    return new JustDate(dto.year, dto.month, dto.date);
+  };
+
+  /**
    * https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Date/getTime
    * @public
    * @returns {Number} UTC timestamp, milliseconds

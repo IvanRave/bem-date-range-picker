@@ -10,6 +10,14 @@ modules.define('date-range', [
       throw new Error('required_initial_instanceof_JustDate');
     }
 
+    if (start && (start instanceof JustDate === false)) {
+      throw new Error('required_start_instanceof_JustDate');
+    }
+
+    if (end && (end instanceof JustDate === false)) {
+      throw new Error('required_end_instanceof_JustDate');
+    }
+
     if (!dateGap || (dateGap instanceof DateGap === false)) {
       throw new Error('required_dateGap_instanceof_DateGap');
     }

@@ -50,9 +50,9 @@ modules.define('date-picker', [
       // - for timestamp - timestamp
       // - for string - string
       // In all cases - used timestamp
-      var timestamp = thingSet.select;
-      if (timestamp !== undefined && timestamp !== null) {
-        this.emit('change', JustDate.fromTimestamp(timestamp));
+      if (thingSet.select !== undefined) {
+        // timestamp - usually by local time (with tzoffset)
+        this.emit('change', this.getJustDate());
         return;
       }
     },
@@ -75,7 +75,7 @@ modules.define('date-picker', [
      */
     setJustDate: function(dateSet) {
       if (dateSet) {
-        this.picker.set('select', dateSet.getTime());
+        this.picker.set('select', dateSet.getArray());
       } else {
         this.picker.clear();
       }
